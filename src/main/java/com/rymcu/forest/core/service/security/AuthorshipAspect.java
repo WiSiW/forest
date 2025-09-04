@@ -128,18 +128,18 @@ public class AuthorshipAspect {
             }
             if (idAuthor > 0) {
                 String authHeader = request.getHeader(JwtConstants.AUTHORIZATION);
+                boolean hasPermission = false;
                 if (StringUtils.isNotBlank(authHeader)) {
                     TokenUser tokenUser = UserUtils.getTokenUser(authHeader);
                     if (!idAuthor.equals(tokenUser.getIdUser())) {
-                        boolean hasPermission = false;
                         if (Module.ARTICLE_TAG.equals(log.moduleName())) {
                             // 判断管理员权限
                             hasPermission = userMapper.hasAdminPermission(tokenUser.getAccount());
                         }
-                        if (!hasPermission) {
-                            throw new UnauthorizedException();
-                        }
                     }
+                }
+                if (!hasPermission) {
+                    throw new UnauthorizedException();
                 }
             } else {
                 throw new BusinessException("参数异常");
