@@ -6,6 +6,8 @@ import com.rymcu.forest.core.result.GlobalResult;
 import com.rymcu.forest.core.result.GlobalResultGenerator;
 import com.rymcu.forest.dto.BankDTO;
 import com.rymcu.forest.service.BankService;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +21,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/v1/admin/bank")
+@RequiresRoles(value = {"blog_admin", "admin"}, logical = Logical.OR)
 public class BankController {
 
     @Resource
