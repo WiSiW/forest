@@ -7,6 +7,8 @@ import com.rymcu.forest.core.result.GlobalResultGenerator;
 import com.rymcu.forest.lucene.model.UserDic;
 import com.rymcu.forest.lucene.service.UserDicService;
 import com.rymcu.forest.util.Utils;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +24,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api/v1/lucene/dic")
+@RequiresRoles(value = {"blog_admin", "admin"}, logical = Logical.OR)
 public class UserDicController {
 
     @Resource
