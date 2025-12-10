@@ -234,9 +234,10 @@ public class UploadController {
             return GlobalResultGenerator.genSuccessResult(data);
         }
         URL link = new URL(url);
-        // SSRF 校验
-        if (!SSRFUtil.checkUrl(link, false)) {
-            throw new FileNotFoundException();
+        // SSRF 校验 - 启用白名单检查
+        if (!SSRFUtil.checkUrl(link, true)) {
+            logger.warn("SSRF 校验失败，拒绝访问 URL: {}", url);
+            throw new FileNotFoundException("不允许访问该 URL");
         }
         HttpURLConnection conn = (HttpURLConnection) link.openConnection();
         //设置超时间为3秒
